@@ -1,4 +1,4 @@
-require "bundler/gem_tasks"
+require 'bundler/gem_tasks'
 
 require 'rubygems/package'
 require 'gemfury'
@@ -7,15 +7,15 @@ require 'gemfury/command'
 require 'rubocop/rake_task'
 
 namespace 'fury' do
-  desc "Build gem and push it to Gemfury"
-  task :release, [:gemspec, :as] do |t, args|
+  desc 'Build gem and push it to Gemfury'
+  task :release, [:gemspec, :as] do |_, args|
     gemspec = args[:gemspec] ||
-      FileList["#{Dir.pwd}/*.gemspec"][0]
+              FileList["#{Dir.pwd}/*.gemspec"][0]
 
     as = args[:as] || 'fairfax'
 
     if gemspec.nil? || !File.exist?(gemspec)
-      puts "No gemspec found"
+      puts 'No gemspec found'
     else
       puts "Building #{File.basename(gemspec)}"
       spec = Gem::Specification.load(gemspec)
@@ -38,9 +38,8 @@ namespace 'fury' do
 end
 
 namespace 'gemfury' do
-  task :release => 'fury:release'
+  task release: 'fury:release'
 end
-
 
 desc 'Run RuboCop on the lib directory'
 RuboCop::RakeTask.new(:rubocop) do |task|

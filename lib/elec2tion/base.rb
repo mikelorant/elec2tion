@@ -1,4 +1,5 @@
 module Elec2tion
+  # Elec2tion::Base
   class Base
     def initialize(options)
       @options = options

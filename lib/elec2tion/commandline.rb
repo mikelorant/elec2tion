@@ -1,6 +1,7 @@
 require 'thor'
 
 module Elec2tion
+  # Elec2tion::Commandline
   class Commandline < Thor
     package_name 'ElEC2tion'
     map ['-v', '--version'] => :version
