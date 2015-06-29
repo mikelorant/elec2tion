@@ -19,7 +19,17 @@ module Elec2tion
       end
 
       def compare
-        @instance_id == first_instance_id(security_group_id(@security_group_name))
+        _security_group_id = security_group_id(@security_group_name)
+        _first_instance_id = first_instance_id(_security_group_id)
+        result = @instance_id == _first_instance_id
+
+        {
+          result:              result,
+          elected_id:          _first_instance_id,
+          security_group_name: @security_group_name,
+          security_group_id:   _security_group_id,
+          instance_id:         @instance_id
+        }
       end
 
       private
