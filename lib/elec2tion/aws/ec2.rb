@@ -1,6 +1,5 @@
 require 'aws-sdk'
 require 'httparty'
-require 'pry'
 
 module Elec2tion
   module Aws
