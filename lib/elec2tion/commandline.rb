@@ -3,7 +3,7 @@ require 'thor'
 module Elec2tion
   # Elec2tion::Commandline
   class Commandline < Thor
-    package_name 'ElEC2tion'
+    package_name 'Elec2tion'
     map ['-v', '--version'] => :version
 
     desc 'version', 'Print the version and exit.'

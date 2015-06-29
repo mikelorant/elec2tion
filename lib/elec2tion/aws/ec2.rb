@@ -6,6 +6,10 @@ module Elec2tion
   module Aws
     # Elec2tion::Aws::Ec2
     class Ec2
+      SECURITY_GROUPS   = 'http://169.254.169.254/latest/meta-data/security-groups'
+      INSTANCE_ID       = 'http://169.254.169.254/latest/meta-data/instance_id'
+      AVAILABILITY_ZONE = 'http://169.254.169.254/latest/meta-data/placement/availability-zone'
+
       def initialize(options = {})
         @security_group_name = options[:"security-group-name"] || security_group_name
         @instance_id = options[:"instance-id"] || instance_id
@@ -21,15 +25,15 @@ module Elec2tion
       private
 
       def security_group_name
-        query 'http://169.254.169.254/latest/meta-data/security-groups'
+        query SECURITY_GROUPS
       end
 
       def instance_id
-        query 'http://169.254.169.254/latest/meta-data/instance_id'
+        query INSTANCE_ID
       end
 
       def region
-        availability_zone = query 'http://169.254.169.254/latest/meta-data/placement/availability-zone'
+        availability_zone = query AVAILABILITY_ZONE
         availability_zone_to_region(availability_zone)
       end
 
@@ -58,13 +62,17 @@ module Elec2tion
           response.body
         end
       rescue Timeout::Error, Response::Code::Error
-        option = convert_symbols url.split('/')[-1]
+        option = convert_symbols metadata_name url
         puts "Unable to determine #{option}."
         exit 1
       end
 
       def availability_zone_to_region(availability_zone)
         availability_zone[0...-1]
+      end
+
+      def metadata_name(url)
+        url.split('/')[-1]
       end
 
       def convert_symbols(string)
