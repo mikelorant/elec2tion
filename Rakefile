@@ -9,8 +9,7 @@ require 'rubocop/rake_task'
 namespace 'fury' do
   desc 'Build gem and push it to Gemfury'
   task :release, [:gemspec, :as] do |_, args|
-    gemspec = args[:gemspec] ||
-              FileList["#{Dir.pwd}/*.gemspec"][0]
+    gemspec = args[:gemspec] || FileList["#{Dir.pwd}/*.gemspec"][0]
 
     as = args[:as] || 'fairfax'
 
