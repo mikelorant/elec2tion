@@ -18,7 +18,7 @@ module Elec2tion
     private
 
     def format(result)
-      <<-END.gsub /^\s+/, ''
+      <<-END.gsub(/^\s+/, '')
         Security Group Name: #{result[:security_group_name]}
         Security Group ID: #{result[:security_group_id]}
         Instance ID: #{result[:instance_id]}
