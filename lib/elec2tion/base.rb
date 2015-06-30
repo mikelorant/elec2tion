@@ -11,7 +11,7 @@ module Elec2tion
 
     def elect
       result = Elec2tion::Aws::Ec2.new(@options).compare
-      puts format result
+      puts format result unless @options[:quiet]
       exit result[:result]
     end
 

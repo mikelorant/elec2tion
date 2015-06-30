@@ -1,5 +1,6 @@
 require 'aws-sdk'
 require 'httparty'
+require 'pry'
 
 module Elec2tion
   module Aws
@@ -19,7 +20,7 @@ module Elec2tion
 
       def compare
         security_group_id = security_group_id(@security_group_name)
-        elected_id = first_instance_id(security_group_id)
+        elected_id = oldest_instance_id(security_group_id)
         result = @instance_id == elected_id
 
         {
@@ -54,12 +55,16 @@ module Elec2tion
         @client.describe_security_groups(filters: filters).security_groups.first.group_id
       end
 
-      def first_instance_id(security_group_id)
+      def oldest_instance_id(security_group_id)
         filters = [
           { name: 'instance.group-id', values: [security_group_id] }
         ]
 
-        @client.describe_instances(filters: filters).reservations.first.instances.first.instance_id
+        @client.describe_instances(filters: filters).reservations.select { |r|
+          r.instances.first.state.name == 'running'
+        }.sort_by { |r|
+          r.instances.first.launch_time
+        }.first.instances.first.instance_id
       end
 
       def query(url)
