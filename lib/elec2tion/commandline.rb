@@ -20,7 +20,7 @@ module Elec2tion
     method_option :region,                type: :string,  aliases: '-r', desc: 'Optional region.'
 
     def elect
-      Elec2tion::Base.new(options).elect
+      Elec2tion::Base.new(options).elected?
     end
   end
 end

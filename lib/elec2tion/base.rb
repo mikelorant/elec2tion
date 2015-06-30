@@ -9,8 +9,8 @@ module Elec2tion
       puts Elec2tion::VERSION
     end
 
-    def elect
-      result = Elec2tion::Aws::Ec2.new(@options).compare
+    def elected?
+      result = Elec2tion::Aws::Ec2.new(@options).elected?
       puts format result unless @options[:quiet]
       exit result[:result]
     end

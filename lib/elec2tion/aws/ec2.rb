@@ -1,6 +1,5 @@
 require 'aws-sdk'
 require 'httparty'
-require 'pry'
 
 module Elec2tion
   module Aws
@@ -18,10 +17,10 @@ module Elec2tion
         @client = ::Aws::EC2::Client.new(region: @region)
       end
 
-      def compare
+      def elected?
         security_group_id = security_group_id(@security_group_name)
         elected_id = oldest_instance_id(security_group_id)
-        result = @instance_id == elected_id
+        result = @instance_id.eql? elected_id
 
         {
           result:              result,
